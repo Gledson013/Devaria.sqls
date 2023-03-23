@@ -1,22 +1,35 @@
-CREATE TABLE
-	Marcas
-	(
-		Codigo int identity(1,1),
-		Nome varchar(100),
-		Descricao ntext
-		CONSTRAINT PK_Marcas PRIMARY KEY (Codigo)
-	)
+BEGIN TRANSACTION
 
-CREATE TABLE
-	Produtos
-	(
-		Codigo int identity(1,1),
-		Nome varchar(50),
-		Descricao varchar(255),
-		Codigo_Marca int,
-		CONSTRAINT PK_Produtos PRIMARY KEY (Codigo),
-		CONSTRAINT FK_Produtos_Marcas FOREIGN KEY (Codigo_Marca) REFERENCES Marcas(Codigo)
-	)
+/*
+	Criação da tabela de Marcas
+*/
+
+CREATE TABLE Marcas
+(
+	Codigo int identity(1,1),
+	Nome varchar(100),
+	Descricao ntext
+	CONSTRAINT PK_Marcas PRIMARY KEY (Codigo)
+)
+
+/*
+	Criação da tabela de Produtos
+*/
+
+CREATE TABLE Produtos
+(
+	Codigo int identity(1,1),
+	Nome varchar(50),
+	Descricao varchar(255),
+	Codigo_Marca int,
+	CONSTRAINT PK_Produtos PRIMARY KEY (Codigo),
+	CONSTRAINT FK_Produtos_Marcas FOREIGN KEY (Codigo_Marca) REFERENCES Marcas(Codigo)
+)
+
+/*
+	Criação da tabela de Clientes
+*/
+
 CREATE TABLE Clientes
 (
 	Codigo int Identity (1,1),
@@ -32,6 +45,10 @@ CREATE TABLE Clientes
 	CONSTRAINT PK_CodigoCliente PRIMARY KEY (Codigo)
 )
 
+/*
+	Criação da tabela de Fidelidade
+*/
+
 CREATE TABLE Fidelidade
 (
 	Codigo_Cliente int,
@@ -41,6 +58,10 @@ CREATE TABLE Fidelidade
 	CONSTRAINT FK_CodigoCliente_Fidelidade FOREIGN KEY (Codigo_Cliente) REFERENCES Clientes(Codigo)
 )
 
+/*
+	Criação da tabela de Pagamentos
+*/
+
 CREATE TABLE Formas_Pagamento
 (
 	Codigo INT IDENTITY (1,1),
@@ -48,6 +69,10 @@ CREATE TABLE Formas_Pagamento
 	Tipo Varchar(25),
 	CONSTRAINT PK_CodigoPagamento PRIMARY KEY (Codigo)
 )
+
+/*
+	Criação da tabela de Pedido_Venda
+*/
 
 CREATE TABLE Pedidos_Venda
 (
@@ -61,6 +86,11 @@ CREATE TABLE Pedidos_Venda
 	CONSTRAINT FK_CodigoFormaPagamento FOREIGN KEY (Codigo_Forma_Pagamento) REFERENCES Formas_Pagamento(Codigo),
 	CONSTRAINT FK_CodigoCliente FOREIGN KEY (Codigo_Cliente) REFERENCES Clientes(Codigo)
 )
+
+/*
+	Criação da tabela de Itens_Pedido_Venda
+*/
+
 CREATE TABLE Itens_Pedidos_Venda
 (
 	Codigo INT IDENTITY (1,1),
@@ -75,6 +105,10 @@ CREATE TABLE Itens_Pedidos_Venda
 	CONSTRAINT FK_CodigoVenda FOREIGN KEY (Codigo_Pedido_Venda) REFERENCES Pedidos_Venda(Codigo)
 )
 
+/*
+	Criação da tabela de Distribuidores
+*/
+
 CREATE TABLE Distribuidores
 (
 	Codigo INT IDENTITY(1,1),
@@ -88,6 +122,10 @@ CREATE TABLE Distribuidores
 	CONSTRAINT PK_CodigoDistribuidor PRIMARY KEY (Codigo)
 )
 
+/*
+	Criação da tabela Pedidos_Compra
+*/
+
 CREATE TABLE Pedidos_Compra
 (
 	Codigo INT IDENTITY(1,1),
@@ -100,6 +138,10 @@ CREATE TABLE Pedidos_Compra
 	CONSTRAINT FK_CodigoDistribuidor FOREIGN KEY (Codigo_Distribuidor) REFERENCES Distribuidores(Codigo)
 )
 
+/*
+	Criação da tabela Itens_Pedidos_Compra
+	
+*/
 
 CREATE TABLE Itens_Pedidos_Compra
 (
@@ -113,4 +155,3 @@ CREATE TABLE Itens_Pedidos_Compra
 	CONSTRAINT FK_CodigoProdutoCompra FOREIGN KEY (Codigo_Produto) REFERENCES Produtos(Codigo),
 	CONSTRAINT FK_CodigoPedidoCompraItem FOREIGN KEY (Codigo_Pedido_Compra) REFERENCES Pedidos_Compra(Codigo),
 )
-
